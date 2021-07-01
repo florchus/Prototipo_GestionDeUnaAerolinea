@@ -12,8 +12,8 @@ Persona::Persona(){
 
 void Persona::cargar(){
     cin.ignore();
-    cout << "INGRESE EL DNI : " ;
-    cin.getline(_dni,9);
+//    cout << "INGRESE EL DNI : " ;
+//    cin.getline(_dni,9);
     cout << "INGRESE EL NOMBRE : " ;
     cin.getline(_nombre,50);
     cout << "INGRESE EL APELLIDO : "  ;

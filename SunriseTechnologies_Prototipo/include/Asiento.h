@@ -4,24 +4,21 @@
 
 class Asiento{
     private:
-        bool _clase; //si es W (1) o J (0)
+        char _clase; //si es W (1) o J (0)
         int _fila;
         int _columna;
-        char _matriculaAvion[6];
-        char _dni[9];
+        int _idVuelo;
     public:
         void cargar();
         void mostrar();
-        bool getClase();
+        char getClase();
         int getFila();
         int getColumna();
-        char *getMatriculaAvion();
-        char *getDni();
-        void setClase(bool);
+        int getIdVuelo();
+        void setClase(char);
         void setFila(int);
         void setColumna(int);
-        void setMatriculaAvion(char*);
-        void setDni(char *);
+        void setIdVuelo(int);
         bool grabarEnDisco(int);
         void grabarEnDisco();
         bool leerDeDisco(int);

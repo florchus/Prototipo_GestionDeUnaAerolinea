@@ -8,6 +8,7 @@ class AuxiliarAvion{
         int _capacidadAsientosJ;
         int _idVuelo;
 
+
     public:
         void cargar();
         void mostrar();

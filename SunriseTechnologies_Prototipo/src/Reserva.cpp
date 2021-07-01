@@ -33,6 +33,20 @@ void Reserva::mostrar(){
     }
 }
 
+void Reserva::mostrarEstado(){
+    if(_estado == true){
+        cout << "RESERVA CONFIRMADA" << endl;
+    }
+    else{
+        if(_estado == -1){
+            cout << "RESERVA CANCELADA" << endl;
+        }
+        else{
+            cout << "RESERVA SIN CONFIRMAR" << endl;
+        }
+    }
+}
+
 int Reserva::getIdPnr(){
     return _idPnr;
 }
@@ -48,8 +62,17 @@ float Reserva::getImporte(){
 int Reserva::getEstado(){
     return _estado;
 }
+int Reserva::getIdVuelo(){
+    return _idVuelo;
+}
+char Reserva::getClase(){
+    return _clase;
+}
 void Reserva::setIdPnr(int pnr){
     _idPnr = pnr;
+}
+void Reserva::setClase(char clase){
+    _clase = clase;
 }
 void Reserva::setFechaCompra(Fecha fecha){
     _fechaCompra = fecha;

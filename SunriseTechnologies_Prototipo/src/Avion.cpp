@@ -14,7 +14,7 @@ void Avion::cargar(){
     cin >> _capacidadCombustible;
     cin.ignore();
     cout << "MODELO: " ;
-    cin.getline(_modelo, 11);
+    cin.getline(_modelo, 25);
     cout << "MATRICULA: ";
     cin.getline(_matricula,6);
 }

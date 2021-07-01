@@ -13,4 +13,7 @@ void menuReserva();
 
 void menuCheckin();
 
+void menuReportes();
+
+
 #endif // MENU_H_INCLUDED

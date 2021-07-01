@@ -7,7 +7,7 @@ class Avion{
         int _capacidadAsientosW;
         int _capacidadAsientosJ;
         float _capacidadCombustible;
-        char _modelo[11];
+        char _modelo[25];
         char _matricula[6];
     public:
         void cargar();

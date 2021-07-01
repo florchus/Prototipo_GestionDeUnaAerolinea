@@ -17,7 +17,7 @@ void Asiento::mostrar(){
     cout << "FILA: " << _fila << endl;
     cout << "COLUMNA: " << _columna << endl;
 }
-bool Asiento::getClase(){
+char Asiento::getClase(){
     return _clase;
 }
 
@@ -27,8 +27,11 @@ int Asiento::getFila(){
 int Asiento::getColumna(){
     return _columna;
 }
+int Asiento::getIdVuelo(){
+    return _idVuelo;
+}
 
-void Asiento::setClase(bool clase){
+void Asiento::setClase(char clase){
     _clase = clase;
 }
 void Asiento::setFila(int fila){
@@ -37,9 +40,8 @@ void Asiento::setFila(int fila){
 void Asiento::setColumna(int columna){
     _columna = columna;
 }
-
-void Asiento::setMatriculaAvion(char *matricula){
-    strcpy(_matriculaAvion, matricula);
+void Asiento::setIdVuelo(int vuelo){
+    _idVuelo = vuelo;
 }
 
 bool Asiento::grabarEnDisco(int pos){
