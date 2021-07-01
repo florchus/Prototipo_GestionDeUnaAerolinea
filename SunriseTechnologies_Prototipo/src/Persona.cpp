@@ -14,13 +14,13 @@ void Persona::cargar(){
     cin.ignore();
 //    cout << "INGRESE EL DNI : " ;
 //    cin.getline(_dni,9);
-    cout << "INGRESE EL NOMBRE : " ;
+    cout << "  INGRESE EL NOMBRE : " ;
     cin.getline(_nombre,50);
-    cout << "INGRESE EL APELLIDO : "  ;
+    cout << "  INGRESE EL APELLIDO : "  ;
     cin.getline(_apellido,50);
-    cout << "INGRESE TELEFONO DE CONTACTO : " ;
+    cout << "  INGRESE TELEFONO DE CONTACTO : " ;
     cin.getline(_telefono,11);
-    cout << "INGRESE UN EMAIL DE CONTACTO : ";
+    cout << "  INGRESE UN EMAIL DE CONTACTO : ";
     cin.getline(_email,20);
 }
 void Persona::mostrar(){
@@ -38,15 +38,15 @@ void Persona::mostrar(){
     }
 
     gotoxy(40, 8); //(x,y)
-    cout << "DNI : " << _dni << endl;
+    cout << "  DNI : " << _dni << endl;
     gotoxy(40, 10);
-    cout << "NOMBRE : " << _nombre << endl;
+    cout << "  NOMBRE : " << _nombre << endl;
     gotoxy(40, 12);
-    cout << "APELLIDO : " << _apellido << endl;
+    cout << "  APELLIDO : " << _apellido << endl;
     gotoxy(40, 14);
-    cout << "TELEFONO DE CONTACTO : " << _telefono << endl;
+    cout << "  TELEFONO DE CONTACTO : " << _telefono << endl;
     gotoxy(40, 16);
-    cout << "EMAIL DE CONTACTO : " << _email << endl;
+    cout << "  EMAIL DE CONTACTO : " << _email << endl;
 
 }
 char *Persona::getDni(){

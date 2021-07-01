@@ -37,10 +37,10 @@ void Fecha::mostrar(){
 }
 
 void Fecha::cargar(){
-    cout << "DIA: ";
+    cout << "  DIA: ";
     cin >> _dia;
-    cout << "MES: ";
+    cout << "  MES: ";
     cin >> _mes;
-    cout << "AÑO: ";
+    cout << "  AÑO: ";
     cin >> _anio;
 }

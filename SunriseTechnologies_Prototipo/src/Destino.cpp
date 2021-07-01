@@ -22,11 +22,11 @@ void Destino::cargar(){
     _estado=1; // Estado=1 destino activo - Estado=0 destino no activo
 }
 void Destino::mostrar(){
-    cout << "CODIGO DESTINO: " << _codigoDestino << endl;
-    cout << "DESTINO: " << _destino << endl;
-    cout << "PAÍS   : " << _pais << endl;
-    cout << "PRECIO : " << _precio << endl;
-    cout << "-------  " << endl;
+    cout << "  CODIGO DESTINO: " << _codigoDestino << endl;
+    cout << "  DESTINO       : " << _destino << endl;
+    cout << "  PAÍS          : " << _pais << endl;
+    cout << "  PRECIO        : " << _precio << endl;
+    cout << "  --------------- " << endl;
 }
 char *Destino::getDestino(){
     return _destino;

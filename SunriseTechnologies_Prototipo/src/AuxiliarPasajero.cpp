@@ -8,17 +8,17 @@ using namespace std;
 #include "rlutil.h"
 
 void AuxiliarPasajero::mostrar(){
-    cout << "DNI: " << _dni << endl;
-    cout << "PNR: " << _idPnr << endl;
+    cout << "  DNI: " << _dni << endl;
+    cout << "  PNR: " << _idPnr << endl;
 }
 void AuxiliarPasajero::mostrar2(){
     for(int i=0; i<45; i++){
         gotoxy(38+i, 26);
         cout << "*";
-        if(i<14){
-            gotoxy(38, 7+i);
+        if(i<6){
+            gotoxy(38, 21+i);
             cout << "*";
-            gotoxy(83, 7+i);
+            gotoxy(83, 21+i);
             cout << "*";
         }
     }

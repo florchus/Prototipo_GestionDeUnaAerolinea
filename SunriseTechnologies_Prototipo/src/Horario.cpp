@@ -27,8 +27,8 @@ void Horario::mostrar(){
     }
 }
 void Horario::cargar(){
-    cout << "HORA: ";
+    cout << "  HORA: ";
     cin >> _hora;
-    cout << "MINUTOS: ";
+    cout << "  MINUTOS: ";
     cin >> _minuto;
 }

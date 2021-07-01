@@ -8,13 +8,13 @@ using namespace std;
 
 void Pasajero::cargar(){
     Persona::cargar();
-    cout << "INGRESE LA FECHA DE NACIMIENTO: " ;
+    cout << "  INGRESE LA FECHA DE NACIMIENTO: " ;
     _nacimiento.cargar();
 }
 void Pasajero::mostrar(){
     Persona::mostrar();
     gotoxy(40, 18);
-    cout << "FECHA DE NACIMIENTO: ";
+    cout << "  FECHA DE NACIMIENTO: ";
     gotoxy(65, 18);
     _nacimiento.mostrar();
 }
@@ -22,7 +22,7 @@ Fecha Pasajero::getNacimiento(){
     return _nacimiento;
 }
 void Pasajero::setNacimiento(Fecha nacimiento){
-    _nacimiento=nacimiento;
+    _nacimiento = nacimiento;
 }
 bool Pasajero::grabarEnDisco(int pos){
     bool guardo;

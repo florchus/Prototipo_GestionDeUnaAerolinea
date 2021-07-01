@@ -27,6 +27,8 @@ void listadoDestinos();
 //MENU VUELOS
 void listadoVuelos();
 
+void mostrarVueloPorId(int);
+
 void modificarVuelos();
 
 void altaVuelos();
@@ -73,6 +75,8 @@ void mostrarPax(char*);
 
 void listarClientes();
 
+void modificarClientes();
+
 //MENU CHECK IN
 
 void mostrarPax2(char*);
@@ -110,6 +114,8 @@ int mapaDeAsientos(int, char);
 void mostrarInfoPnr();
 
 void mostrarMapaDeAsiento(int);
+
+bool existeDniYPnr(char *, int);
 
 void imprimirBP();
 

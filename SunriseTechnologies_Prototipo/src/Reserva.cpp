@@ -13,22 +13,22 @@ Reserva::Reserva()
 }
 
 void Reserva::mostrar(){
-    cout << "PNR: " << _idPnr << endl;
-    cout << "FECHA DE COMPRA: ";
+    cout << "  PNR: " << _idPnr << endl;
+    cout << "  FECHA DE COMPRA: ";
      _fechaCompra.mostrar();
-    cout << "FECHA DE EMBARQUE: ";
+    cout << "  FECHA DE EMBARQUE: ";
     _fechaEmbarque.mostrar();
-    cout << "IMPORTE: $" << _importe << endl;
-    cout << "ID VUELO: " << _idVuelo << endl;
+    cout << "  IMPORTE: $" << _importe << endl;
+    cout << "  ID VUELO: " << _idVuelo << endl;
     if(_estado == true){
-        cout << "RESERVA CONFIRMADA" << endl;
+        cout << "  RESERVA CONFIRMADA" << endl;
     }
     else{
         if(_estado == -1){
-            cout << "RESERVA CANCELADA" << endl;
+            cout << "  RESERVA CANCELADA" << endl;
         }
         else{
-            cout << "RESERVA SIN CONFIRMAR" << endl;
+            cout << "  RESERVA SIN CONFIRMAR" << endl;
         }
     }
 }

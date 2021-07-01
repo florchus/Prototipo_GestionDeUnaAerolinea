@@ -136,10 +136,12 @@ int main(){
     anykey();
     cls();
     int permiso, opcion =0;
+    bool b = 0;
     setColor(WHITE);
     permiso = login();
     while(opcion == 0){
         cls();
+        b=0;
         switch (permiso){
             case 1:
                 setBackgroundColor(BLUE);
@@ -162,6 +164,7 @@ int main(){
                 cout << "  VUELVA A INGRESAR AL SISTEMA" << endl;
                 anykey();
                 permiso = login();
+                b = 1;
                 break;
         }
         setBackgroundColor(BLACK);
@@ -173,7 +176,7 @@ int main(){
             cout << "  Desea ingresar otro usuario(Si=0/No=1)?";
             cin >> opcion;
         }
-        if(opcion == 0){
+        if(opcion == 0 && b == 0){
             cin.ignore();
             permiso = login();
         }

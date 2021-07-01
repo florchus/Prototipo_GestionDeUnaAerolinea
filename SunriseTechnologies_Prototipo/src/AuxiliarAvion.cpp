@@ -3,16 +3,16 @@
 #include "AuxiliarAvion.h"
 using namespace std;
 void AuxiliarAvion::cargar(){
-    cout << "INGRESE EL ID DE VUELO:" << endl ;
+    cout << "  INGRESE EL ID DE VUELO:" << endl ;
     cin >> _idVuelo;
-    cout << "INGRESE LA CAPACIDAD DE ASIENTOS EN W:" << endl ;
+    cout << "  INGRESE LA CAPACIDAD DE ASIENTOS EN W:" << endl ;
     cin >> _capacidadAsientosW ;
-    cout << "INGRESE LA CAPACIDAD DE ASIENTOS EN J:" << endl ;
+    cout << "  INGRESE LA CAPACIDAD DE ASIENTOS EN J:" << endl ;
     cin >> _capacidadAsientosJ;
 }
 void AuxiliarAvion::mostrar(){
-    cout << "ASIENTOS DISPONIBLES EN EJECUTIVA(W): " << _capacidadAsientosW << endl;
-    cout << "ASIENTOS DISPONIBLES EN TURISTA(J)  : " << _capacidadAsientosJ << endl;
+    cout << "  ASIENTOS DISPONIBLES EN EJECUTIVA(W): " << _capacidadAsientosW << endl;
+    cout << "  ASIENTOS DISPONIBLES EN TURISTA(J)  : " << _capacidadAsientosJ << endl;
 }
 int AuxiliarAvion::getCapacidadAsientosW(){
     return _capacidadAsientosW;
