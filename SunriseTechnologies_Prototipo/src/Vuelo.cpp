@@ -36,6 +36,33 @@ void Vuelo::cargar(){
     _eta.cargar();
     cout << "  -------------------------" << endl;
 }
+void Vuelo::cargar2(){
+    cin.ignore();
+    cout << "  CODIGO DE AEROPUERTO PARTIDA: ";
+    cin.getline(_codigoPartida,4);
+    cout << "  CODIGO DE AEROPUERTO DESTINO: ";
+    cin.getline(_codigoDestino,4);
+    cout << "  FECHA DE EMBARQUE: " << endl ;
+    _fechaEmbarque.cargar();
+    cout << "  HORA ESTIMADA DE EMBARQUE " << endl;
+    _horaEmb.cargar();
+    cout << "  -------------------------" << endl;
+    cout << "  HORA PROGRAMADA DE PARTIDA: " << endl;
+    _std.cargar();
+    cout << "  -------------------------" << endl;
+    cout << "  HORA PROGRAMADA DE ARRIBO: " << endl;
+    _sta.cargar();
+    cout << "  -------------------------" << endl;
+    cout << "  FECHA DE ATERRIZAJE: " << endl;
+    _fechaAterrizaje.cargar();
+    cout << "  -------------------------" << endl;
+    cout << "  HORA ESTIMADA DE PARTIDA " << endl;
+    _etd.cargar();
+    cout << "  -------------------------" << endl;
+    cout << "  HORA ESTIMADA DE ARRIBO: " << endl;
+    _eta.cargar();
+    cout << "  -------------------------" << endl;
+}
 void Vuelo::mostrar(){
     cout << "  MATRICULA DEL AVION: " << _matriculaAvion << endl;
     cout << "  ID VUELO: " << _idVuelo << endl;

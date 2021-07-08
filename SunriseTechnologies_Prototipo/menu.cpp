@@ -12,7 +12,7 @@ using namespace rlutil;
 
 void menuOperador(){
     int opcion, pos=0;
-
+    bool existe;
     Usuario usu;
     char nombre[10];
 
@@ -37,34 +37,41 @@ void menuOperador(){
         cin >> opcion;
         switch (opcion){
         case 1:
-            cin.ignore();
-            usu.cargar();
-            usu.grabarEnDisco();
+            cargarUsuarios();
+            anykey();
             break;
         case 2:
             cin.ignore();
-            cout << "INGRESE NOMBRE DE USUARIO: ";
+            cout << "  INGRESE NOMBRE DE USUARIO: ";
             cin.getline(nombre, 10);
-            while(usu.leerDeDisco(pos)){
-                if(strcmp(nombre, usu.getId()) == 0){
-                    usu.setContrasenia("0000");
-                    grabo = usu.grabarEnDisco(pos);
-                    cout << "USUARIO BLANQUEADO CORRECTAMENTE." << endl;
+            existe = existeUsuario(nombre);
+            if(existe == true){
+                while(usu.leerDeDisco(pos)){
+                    if(strcmp(nombre, usu.getId()) == 0){
+                        usu.setContrasenia("0000");
+                        grabo = usu.grabarEnDisco(pos);
+                        cout << "  USUARIO BLANQUEADO CORRECTAMENTE." << endl;
+                    }
+                    pos++;
                 }
-                pos++;
             }
+            else{
+                cout << "  USUARIO INEXISTENTE"<< endl;
+            }
+            anykey();
             break;
         case 3:
             listarUsuarios();
+            anykey();
             break;
         case 0:
-            cout << endl << endl;
+            cout << "  SALIENDO...";
             break;
         default:
-            cout << "OPCIÓN INCORRECTA.";
+            cout << "  OPCIÓN INCORRECTA.";
+            anykey();
             break;
         }
-        anykey();
     } while (opcion !=0);
 }
 
@@ -95,27 +102,32 @@ void menuDestinos(){
         switch (opcion){
         case 1:
             altaDestinos();
+            anykey();
             break;
         case 2:
             bajaDestinos();
+            anykey();
             break;
         case 3:
             altaLogicaDestino();
+            anykey();
             break;
         case 4:
             modificarDestinos();
+            anykey();
             break;
         case 5:
             listadoDestinos();
+            anykey();
             break;
         case 0:
-            cout << endl << endl;
+            cout << "  SALIENDO...";
             break;
         default:
-            cout << "OPCIÓN INCORRECTA.";
+            cout << "  OPCIÓN INCORRECTA.";
+            anykey();
             break;
         }
-        anykey();
     } while (opcion != 0);
 }
 
@@ -142,18 +154,22 @@ void menuVuelos(){
         switch (opcion){
         case 1:
             altaVuelos();
+            anykey();
             break;
         case 2:
             modificarVuelos();
+            anykey();
             break;
         case 3:
             listadoVuelos();
+            anykey();
             break;
         case 0:
-            cout << endl << endl;
+            cout << "  SALIENDO...";
             break;
         default:
-            cout << "OPCIÓN INCORRECTA.";
+            cout << "  OPCIÓN INCORRECTA.";
+            anykey();
             break;
         }
 
@@ -196,49 +212,71 @@ void menuReportes(){
         cout << "--> ";
         gotoxy(8, 18);
         cin >> opcion;
-        cls();
+
         switch (opcion){
             case 1:
+                cls();
                 listarReservas();
+                anykey();
                 break;
             case 2:
+                cls();
                 listarCantPaxPorDestino();
+                anykey();
                 break;
             case 3:
+                cls();
                 listarCantPaxPorVuelo();
+                anykey();
                 break;
             case 4:
+                cls();
                 balanceMensual();
+                anykey();
                 break;
             case 5:
+                cls();
                 balanceAnual();
+                anykey();
                 break;
             case 6:
+                cls();
                 destinosMenosRentables();
+                anykey();
                 break;
             case 7:
+                cls();
                 porcentajeOcupaciondeVuelo();
+                anykey();
                 break;
             case 8:
+                cls();
                 destinoMasRentables();
+                anykey();
                 break;
             case 9:
+                cls();
                 rankingMayorOcupa();
+                anykey();
                 break;
             case 10:
+                cls();
                 rankingMenorOcupa();
+                anykey();
                 break;
             case 11:
+                cls();
                 rankingMayorRecaudacion();
+                anykey();
                 break;
            case 0:
-                cout << endl << endl;
+                cout << "  SALIENDO...";
                 break;
             default:
-                cout << "OPCIÓN INCORRECTA.";
+                cout << "  OPCIÓN INCORRECTA.";
+                anykey();
                 break;
        }
-      anykey();
     } while (opcion);
 }
 
@@ -358,7 +396,7 @@ void menuSistemas(){
             }
             break;
         default:
-            cout << "OPCIÓN INCORRECTA.";
+            cout << "  OPCIÓN INCORRECTA.";
             break;
         }
         anykey();
@@ -367,13 +405,13 @@ void menuSistemas(){
 }
 
 void menuReserva(){
-    int opcion;
+    int opcion, opc;
     int vuelo, cantidad;
     char dest[4], partida[4];
     char dni[9];
     Pasajero reg;
     float precio;
-    bool existe, confirmacion, asientoDisponible;
+    bool existe, confirmacion, asientoDisponible, existeDestino,existeEstado, existeId;
     char asiento;
     do{
         cls();
@@ -410,62 +448,80 @@ void menuReserva(){
             cout << "  INGRESE EL CODIGO DE DESTINO: "  ;
             cin.ignore();
             cin.getline(dest,4);
-            cls();
-            if(strcmp(dest, "BUE")==0){
-                cout << "  INGRESAR AEROPUERTO DE PARTIDA: ";
-                cin.getline(partida,4);
-                buscarVueloBue(partida);
-                precio=buscarprecio(partida);
-                cout << "  INGRESE ID DE VUELO: " ;
-                cin >> vuelo;
-                mostrarCapacidadAsientos(vuelo);
-                cout << "  INGRESE LA CLASE DE ASIENTO: ";
-                cin >> asiento;
-                asientoDisponible = checkSeat(vuelo, asiento);
-                while(asientoDisponible == false){
-                    cout << "  ASIENTOS INSUFICIENTES" << endl;
-                    cout << "  REINGRESE LA CLASE DE ASIENTO: ";
-                    cin >> asiento;
-                    asientoDisponible = checkSeat(vuelo, asiento);
-                }
-                cin.ignore();
-                cout << "  INGRESE DNI: ";
-                cin.getline(dni, 9);
-                existe = existePasajero(dni);
-                if( existe == false ){
-                    cout << "  PASAJERO NO REGISTRADO " <<  endl;
-                    break;
+            existeDestino = existeDest(dest);
+            existeEstado = estadoEnUnoDestino(dest);
+            if(existeDestino == true){
+                if(existeEstado == true || strcmp(dest, "BUE")==0){
+                    cls();
+                    if(strcmp(dest, "BUE")==0){
+                        cout << "  INGRESAR AEROPUERTO DE PARTIDA: ";
+                        cin.getline(partida,4);
+                        existeDestino = existeDest(partida);
+                        if(existeDestino == true){
+                            buscarVueloBue(partida);
+                            precio=buscarprecio(partida);
+                            cout << "  INGRESE ID DE VUELO: " ;
+                            cin >> vuelo;
+                            existeId = verificarIdVuelo(dest, vuelo, partida);
+                            if(existeId){
+                                mostrarCapacidadAsientos(vuelo);
+                                cout << "  INGRESE LA CLASE DE ASIENTO: ";
+                                cin >> asiento;
+                                if(asiento == 'W' || asiento == 'J'){
+                                    generarBue(vuelo, asiento, precio);
+                                }
+                                else{
+                                    cout << "  NO EXISTE LA CLASE INGRESADA" << endl;
+                                }
+                            }
+                            else{
+                                cout << "  VUELO INEXISTENTE." << endl;
+                            }
+                        }
+                        else{
+                            cout << "  DESTINO INEXISTENTE" << endl;
+                        }
+                    }
+                    else{
+                        buscarVuelo(dest);
+                        precio=buscarprecio(dest);
+                        cout << "  INGRESE ID DE VUELO: " ;
+                        cin >> vuelo;
+                        existeId = verificarIdVuelo(dest, vuelo, "BUE");
+                        if(existeId){
+                            cin.ignore();
+                            cout << "  INGRESE DNI: ";
+                            cin.getline(dni, 9);
+                            existe = existePasajero(dni);
+                            if( existe == false ){
+                                cout << "  PASAJERO NO REGISTRADO " <<  endl;
+                                break;
+                            }
+                            else{
+                                mostrarCapacidadAsientos(vuelo);
+                                cout << "  INGRESE LA CLASE DE ASIENTO: ";
+                                cin >> asiento;
+                                asientoDisponible = checkSeat(vuelo, asiento);
+                                while(asientoDisponible == false){
+                                    cout << "  ASIENTOS INSUFICIENTES" << endl;
+                                    cout << "  REINGRESE LA CLASE DE ASIENTO: ";
+                                    cin >> asiento;
+                                    asientoDisponible = checkSeat(vuelo, asiento);
+                                }
+                                generarReserva(dni,vuelo,precio, asiento);
+                            }
+                        }
+                        else{
+                            cout << "  VUELO INEXISTENTE." << endl;
+                        }
+                    }
                 }
                 else{
-                    generarReserva(dni,vuelo,precio, asiento);
+                    cout << "  DESTINO DADO DE BAJA" << endl;
                 }
             }
             else{
-                buscarVuelo(dest);
-                precio=buscarprecio(dest);
-                cout << "  INGRESE ID DE VUELO: " ;
-                cin >> vuelo;
-                cin.ignore();
-                cout << "  INGRESE DNI: ";
-                cin.getline(dni, 9);
-                existe = existePasajero(dni);
-                if( existe == false ){
-                    cout << "  PASAJERO NO REGISTRADO " <<  endl;
-                    break;
-                }
-                else{
-                    mostrarCapacidadAsientos(vuelo);
-                    cout << "  INGRESE LA CLASE DE ASIENTO: ";
-                    cin >> asiento;
-                    asientoDisponible = checkSeat(vuelo, asiento);
-                    while(asientoDisponible == false){
-                        cout << "  ASIENTOS INSUFICIENTES" << endl;
-                        cout << "  REINGRESE LA CLASE DE ASIENTO: ";
-                        cin >> asiento;
-                        asientoDisponible = checkSeat(vuelo, asiento);
-                    }
-                    generarReserva(dni,vuelo,precio, asiento);
-                }
+                cout << "  DESTINO INEXISTENTE " << endl;
             }
             break;
         case 2:
@@ -624,7 +680,6 @@ void menuCheckin(){
             break;
         case 2:
             seleccionarAsiento();
-
             break;
         case 3:
             int vuelo;
@@ -716,12 +771,10 @@ void menuCheckin(){
 
             break;
         default:
-            cout << "OPCIÓN INCORRECTA.";
+            cout << "  OPCIÓN INCORRECTA.";
             break;
         }
         anykey();
-
-
     } while (opcion!=0);
     anykey();
 }

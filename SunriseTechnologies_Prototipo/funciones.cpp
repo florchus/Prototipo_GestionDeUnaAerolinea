@@ -17,19 +17,49 @@ using namespace std;
 using namespace rlutil;
 
 //MENU SISTEMAS
+
+bool existeUsuario(char *usu){
+    Usuario reg;
+    int pos=0;
+    while(reg.leerDeDisco(pos++)){
+        if(strcmp(reg.getId(), usu)==0){
+            return true;
+        }
+    }
+    return false;
+}
 void cargarUsuarios(){
     cls();
     Usuario reg;
-    bool opc=1;
+    bool opc=1, existe;
     while(opc){
-        reg.cargar();
-        reg.grabarEnDisco();
-        cout << "DESEA CREAR UN NUEVO USUARIO(1:SI, 0:NO): ";
-        cin >> opc;
         cin.ignore();
+        reg.cargar();
+        existe = existeUsuario(reg.getId());
+        if(existe == false){
+            reg.grabarEnDisco();
+            cout << "DESEA CREAR UN NUEVO USUARIO(1:SI, 0:NO): ";
+            cin >> opc;
+            cin.ignore();
+        }
+        else{
+            cout << "USUARIO YA REGISTRADO. DESEA CREAR UN NUEVO USUARIO(1:SI, 0:NO): ";
+            cin >> opc;
+            cin.ignore();
+        }
     }
 }
-
+void listarUsuarios(){
+    //borrar
+    cls();
+    Usuario reg;
+    int pos=0;
+    while(reg.leerDeDisco(pos++)){
+        reg.mostrar();
+        cout <<  "--------"<< endl;
+    }
+    anykey();
+}
 void leerPasw(char frase[]){
     int i=0;
     cout.flush();
@@ -107,12 +137,41 @@ int login(){
 
     return -1;
 }
-
+bool existeDest(char *dest){
+    Destino reg;
+    int pos=0;
+    while(reg.leerDeDisco(pos++)){
+        if(strcmp(reg.getCodigoDestino(),dest)==0 || strcmp(dest, "BUE")==0 ){
+            return true;
+        }
+    }
+    return false;
+}
 void altaDestinos(){
     cls();
     Destino des;
+    char codigoDestino[4], destino[50], pais[50];
+    float precio;
+    bool existe;
     cin.ignore();
-    des.cargar();
+    cout << "  CODIGO DE DESTINO: ";
+    cin.getline(codigoDestino,4);
+    existe = existeDest(codigoDestino);
+    if(existe == true){
+        cout << "  DESTINO YA INGRESADO." << endl;
+        return;
+    }
+    des.setCodigoDestino(codigoDestino);
+    cout << "  DESTINO: " ;
+    cin.getline(destino, 50);
+    des.setDestino(destino);
+    cout << "  PAÍS: " ;
+    cin.getline(pais, 50);
+    des.setPais(pais);
+    cout << "  PRECIO: " ;
+    cin >> precio;
+    des.setPrecio(precio);
+    des.setEstado(1);
     des.grabarEnDisco();
 }
 
@@ -123,6 +182,11 @@ void bajaDestinos(){
     cin.ignore();
     cout << "  INGRESE EL CODIGO DE DESTINO QUE QUIERA DAR DE BAJA : " ;
     cin.getline(dest,4);
+    bool existe = existeDest(dest);
+    if(existe == false){
+        cout << "  DESTINO INEXISTENTE." << endl;
+        return;
+    }
     while(reg.leerDeDisco(pos)){
         if(strcmp(dest,reg.getCodigoDestino())==0){
             reg.setEstado(0);
@@ -133,12 +197,18 @@ void bajaDestinos(){
     }
 }
 void altaLogicaDestino(){
+    cls();
     Destino reg;
     int pos=0;
     char dest[4];
     cin.ignore();
     cout << "INGRESE EL CODIGO DE DESTINO QUE QUIERA DAR DE ALTA : " ;
     cin.getline(dest,4);
+    bool existe = existeDest(dest);
+    if(existe == false){
+        cout << "  DESTINO INEXISTENTE." << endl;
+        return;
+    }
     while(reg.leerDeDisco(pos)){
         if(strcmp(dest,reg.getCodigoDestino())==0){
             reg.setEstado(1);
@@ -158,6 +228,11 @@ void modificarDestinos(){
     cin.ignore();
     cout << "  INGRESE CODIGO DESTINO A MODIFICAR: ";
     cin.getline(nombre, 4);
+    bool existe = existeDest(nombre);
+    if(existe == false){
+        cout << "  DESTINO INEXISTENTE." << endl;
+        return;
+    }
     cout << "  INGRESE NUEVO PRECIO: ";
     cin >> precio;
     while(reg.leerDeDisco(pos)){
@@ -172,14 +247,31 @@ void modificarDestinos(){
 
 void listadoDestinos(){
     cls();
-    int pos=0;
+    int pos=0, i=0;
     Destino reg;
+    gotoxy(2, 2);
+    cout << "CODIGO DESTINO";
+    gotoxy(20, 2);
+    cout << "DESTINO";
+    gotoxy(38, 2);
+    cout << "PAIS";
+    gotoxy(50, 2);
+    cout << "PRECIO" ;
+    gotoxy(2,3);
+    cout << "-------------------------------------------------------" ;
     while(reg.leerDeDisco(pos++)){
         if(reg.getEstado() == 1){
-            reg.mostrar();
+            gotoxy(2, 4+i);
+            cout << reg.getCodigoDestino();
+            gotoxy(20, 4+i);
+            cout << reg.getDestino();
+            gotoxy(38, 4+i);
+            cout << reg.getPais();
+            gotoxy(50, 4+i);
+            cout << "$ " << reg.getPrecio();
+            i++;
         }
     }
-    anykey();
 }
 
 void listadoVuelos(){
@@ -233,7 +325,6 @@ void listadoVuelos(){
         reg.getEta().mostrar();
         i++;
     }
-    anykey();
 }
 bool existeVuelo(int numVuelo){
     Vuelo reg;
@@ -254,11 +345,20 @@ void mostrarVueloPorId(int idVuelo){
         }
     }
 }
+bool existeMatricula(char *matricula){
+    Avion reg;
+    int pos = 0;
+    while(reg.leerDeDisco(pos++)){
+        if(strcmp(matricula, reg.getMatricula())==0){
+            return true;
+        }
+    }
+    return false;
+}
 void modificarVuelos(){
     char matricula[6];
     Vuelo reg;
     int pos=0, opcion, idVuelo;
-
     cout << "  INGRESE ID VUELO: ";
     cin >> idVuelo;
     bool existe = existeVuelo(idVuelo);
@@ -300,6 +400,11 @@ void modificarVuelos(){
                 cin.ignore();
                 cout << "  MATRICULA: ";
                 cin.getline(matricula,6);
+                existe = existeMatricula(matricula);
+                if(existe == false){
+                    cout << "  AVIÓN NO REGISTRADO" << endl;
+                    return;
+                }
                 reg.setMatriculaAvion(matricula);
                 reg.grabarEnDisco(pos);
                 break;
@@ -356,8 +461,26 @@ void mostrarCapacidadAsientos(int vuelo){
 void altaVuelos(){
     cls();
     Vuelo reg;
+    char matriculaAvion[6];
+    int idVuelo;
     cin.ignore();
-    reg.cargar();
+    cout << "  MATRICULA DEL AVION: ";
+    cin.getline(matriculaAvion,6);
+    bool existe = existeMatricula(matriculaAvion);
+    if(existe == false){
+        cout << "  AVIÓN NO REGISTRADO" << endl;
+        return;
+    }
+    cout << "  ID VUELO: " ;
+    cin >> idVuelo;
+    existe = existeVuelo(idVuelo);
+    if(existe == true){
+        cout << "  VUELO YA REGISTRADO" << endl;
+        return;
+    }
+    reg.setMatriculaAvion(matriculaAvion);
+    reg.setIdVuelo(idVuelo);
+    reg.cargar2();
     reg.grabarEnDisco();
 }
 void listaCiudades(){
@@ -440,9 +563,48 @@ void buscarVueloBue(char *partida){
         }
     }
 }
+
 void crearFlota(){
     Avion reg;
-    reg.cargar();
+    char matricula[6], modelo[25];
+    int combustible, w, j;
+    cin.ignore();
+    cout << "  MATRICULA: ";
+    cin.getline(matricula,6);
+    bool existe  = existeMatricula(matricula);
+    if(existe == true){
+        cout << "  AVIÓN EXISTENTE" << endl;
+        return;
+    }
+    cout << "  CAPACIDAD DE ASIENTOS CLASE EJECUTIVA: " ;
+    cin >> w;
+    while(w<0){
+        cout << "  CAPACIDAD INCORRECTA." << endl;
+        cout << "  REINGRESE CAPACIDAD DE ASIENTOS EN CLASE EJECUTIVA: " ;
+        cin >> w;
+    }
+    reg.setCapacidadAsientosW(w);
+    cout << "  CAPACIDAD DE ASIENTOS CLASE TURISTA: " ;
+    cin >> j;
+     while(j<0){
+        cout << "  CAPACIDAD INCORRECTA." << endl;
+        cout << "  REINGRESE CAPACIDAD DE ASIENTOS EN CLASE TURISTA: " ;
+        cin >> j;
+    }
+    reg.setCapacidadAsientosJ(j);
+    cout << "  CAPACIDAD DE COMBUSTIBLE: " ;
+    cin >> combustible;
+     while(combustible<0){
+        cout << "  CAPACIDAD INCORRECTA." << endl;
+        cout << "  REINGRESE CAPACIDAD DE COMBUSTIBLE: " ;
+        cin >> combustible;
+    }
+    reg.setCapacidadCombustible(combustible);
+    cin.ignore();
+    cout << "  MODELO: " ;
+    cin.getline(modelo, 25);
+    reg.setModelo(modelo);
+    reg.setMatricula(matricula);
     reg.grabarEnDisco();
 }
 void mostrarFlota(){
@@ -476,6 +638,18 @@ void mostrarFlota(){
 }
 
 //MENU RESERVAS
+bool verificarIdVuelo(char *dest, int idVuelo, char *partida){
+    Vuelo reg;
+    int pos=0;
+    while(reg.leerDeDisco(pos++)){
+        if(strcmp(reg.getCodigoDestino(), dest)==0 && strcmp(reg.getCodigoPartida(), partida)==0){
+            if( idVuelo == reg.getidVuelo()){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 float buscarprecio(char * dest){
     Destino obj;
     int pos=0;
@@ -515,6 +689,10 @@ bool existePasajero(char *dni){
 }
 void cargarPasajero(char *dni){
     Pasajero reg;
+    if(existePasajero(dni)){
+       cout << "  PASAJERO YA REGISTRADO";
+       return;
+    }
     reg.setDni(dni);
     reg.cargar();
     reg.grabarEnDisco();
@@ -566,9 +744,6 @@ bool checkSeat(int vuelo, char clase){
                 else{
                     return false;
                 }
-                break;
-            default:
-                cout << "NO EXISTE LA CLASE INGRESADA" << endl;
                 break;
             }
 
@@ -737,7 +912,7 @@ void listarReservas(){
     gotoxy(80, 2);
     cout << "ESTADO";
     gotoxy(2, 3);
-    cout << "-------------------------------------------------------------------------------------------------";
+    cout << "---------------------------------------------------------------------------------------------------";
     while(reg.leerDeDisco(pos++)){
         gotoxy(2, 4 + i);
         cout << reg.getIdPnr();
@@ -746,8 +921,8 @@ void listarReservas(){
         gotoxy(28, 4 + i);
         reg.getFechaEmbarque().mostrar();
         gotoxy(48, 4 + i);
-        cout << reg.getImporte();
-        gotoxy(60, 4+i);
+        cout << "$ " << reg.getImporte();
+        gotoxy(62, 4+i);
         cout << reg.getIdVuelo();
         gotoxy(80, 4 + i);
         reg.mostrarEstado();
@@ -797,17 +972,6 @@ void buscarReserva(){
         }
     }
     cout << "  PNR NO ENCONTRADO " << endl;
-}
-void listarUsuarios(){
-    //borrar
-    cls();
-    Usuario reg;
-    int pos=0;
-    while(reg.leerDeDisco(pos++)){
-        reg.mostrar();
-        cout <<  "--------"<< endl;
-    }
-    anykey();
 }
 void listarClientes(){
     Pasajero reg;
@@ -867,7 +1031,7 @@ void listarReservasConfirmadas(){
     gotoxy(60, 2);
     cout << "ID VUELO";
     gotoxy(2, 3);
-    cout << "---------------------------------------------------------------------";
+    cout << "-------------------------------------------------------------------";
     while(reg.leerDeDisco(pos++)){
         if(reg.getEstado()==1){
             gotoxy(2, 4 + i);
@@ -877,8 +1041,8 @@ void listarReservasConfirmadas(){
             gotoxy(28, 4 + i);
             reg.getFechaEmbarque().mostrar();
             gotoxy(48, 4 + i);
-            cout << reg.getImporte();
-            gotoxy(60, 4+i);
+            cout << "$ " << reg.getImporte();
+            gotoxy(63, 4+i);
             cout << reg.getIdVuelo();
             i++;
         }
@@ -939,8 +1103,15 @@ void modificarClientes(){
             case 3:
                 cout << "  DNI: ";
                 cin.getline(dni, 9);
-                reg.setDni(dni);
-                reg.grabarEnDisco(pos);
+                existe = existePasajero(dni);
+                if(existe == true){
+                    cout << "  DNI DUPLICADO" << endl;
+                    return;
+                }
+                else{
+                    reg.setDni(dni);
+                    reg.grabarEnDisco(pos);
+                }
                 break;
             case 4:
                 cout << "  TELEFONO: ";
@@ -970,7 +1141,49 @@ void modificarClientes(){
         pos++;
     }
 }
-
+bool estadoEnUnoDestino(char *dest){
+    Destino reg;
+    int pos = 0;
+    while(reg.leerDeDisco(pos++)){
+        if(strcmp(dest,reg.getCodigoDestino())== 0){
+            if(reg.getEstado() == 1){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+void generarBue(int vuelo,char asiento, float precio){
+    int opc;
+    char dni[9];
+    bool asientoDisponible = checkSeat(vuelo, asiento);
+    while(asientoDisponible == false){
+        cout << "  ASIENTOS INSUFICIENTES" << endl;
+        cout << "  PNR INEXISTENTE. DESEA CONTINUAR (SI = 1, NO = 0)?: ";
+        cin >> opc;
+        if(opc == 0){
+            return;
+        }
+        cout << "  REINGRESE LA CLASE DE ASIENTO: ";
+        cin >> asiento;
+        if(asiento != 'W' || asiento != 'J'){
+            cout << "  NO EXISTE LA CLASE INGRESADA" << endl;
+            return;
+        }
+        asientoDisponible = checkSeat(vuelo, asiento);
+    }
+    cin.ignore();
+    cout << "  INGRESE DNI: ";
+    cin.getline(dni, 9);
+    bool existe = existePasajero(dni);
+    if( existe == false ){
+        cout << "  PASAJERO NO REGISTRADO " <<  endl;
+        return;
+    }
+    else{
+        generarReserva(dni,vuelo,precio, asiento);
+    }
+}
 //CHECKIN
 bool tieneEquipaje(char *dni,int pnr){
     AuxiliarPasajero pax;
@@ -981,6 +1194,18 @@ bool tieneEquipaje(char *dni,int pnr){
                 if(pax.getKilos()>0){
                     return true;
                 }
+            }
+        }
+    }
+    return false;
+}
+bool existeDniYPnr(char *dni, int pnr){
+    AuxiliarPasajero auxPax;
+    int pos=0;
+    while(auxPax.leerDeDisco(pos++)){
+        if(pnr == auxPax.getIdPnr()){
+            if(strcmp(dni, auxPax.getDni())==0){
+                return true;
             }
         }
     }
@@ -1011,9 +1236,19 @@ void despacharValija(){
     while(existe == false){
         cin.ignore();
         cout << "  DNI INCORRECTO" << endl;
+        cout << "  DESEA CONTINUAR (SI = 1, NO = 0)?: ";
+        cin >> opc;
+        if(opc == 0){
+            return;
+        }
         cout << "  REINGRESE DNI: ";
         cin.getline(dni,9);
         existe = existePasajero(dni);
+    }
+    existe = existeDniYPnr(dni, pnr);
+    while(existe == false){
+        cout << "  EL DNI NO COINCIDE EN LA RESERVA" << endl;
+        return;
     }
     valija = tieneEquipaje(dni,pnr);
     if(valija == true){
@@ -1022,12 +1257,15 @@ void despacharValija(){
     }
     cout << "  INGRESE LOS KILOS A DESPACHAR: ";
     cin >> kilos;
+    if(kilos < 0 || kilos>32){
+        cout << "  PESO INCORRECTO" << endl;
+        return;
+    }
     while(aux.leerDeDisco(pos)){
         if(aux.getIdPnr()==pnr){
             if(strcmp(dni,aux.getDni())==0){
                 aux.setKilos(kilos);
                 aux.grabarEnDisco(pos);
-                cout << kilos << endl;
             }
         }
         pos++;
@@ -1246,16 +1484,16 @@ void seleccionarAsiento(){
     char clase;
     int pos = 0;
     bool existe,confirmada,disponible,asiento;
-    cout << "INGRESE PNR: ";
+    cout << "  INGRESE PNR: ";
     cin >> pnr;
     while(!existePnr(pnr)){
-    cout << "  PNR INEXISTENTE. DESEA CONTINUAR (SI = 1, NO = 0)?: ";
-    cin >> opc;
-    if(opc == 0){
-        return;
-    }
-    cout << "  REINGRESE PNR: ";
-    cin >> pnr;
+        cout << "  PNR INEXISTENTE. DESEA CONTINUAR (SI = 1, NO = 0)?: ";
+        cin >> opc;
+        if(opc == 0){
+            return;
+        }
+        cout << "  REINGRESE PNR: ";
+        cin >> pnr;
     }
     cls();
     confirmada = pnrConfirmada(pnr);
@@ -1263,47 +1501,47 @@ void seleccionarAsiento(){
         mostrarPaxPorPnr(pnr);
     }
     else{
-        cout << "RESERVA NO CONFIRMADA"<< endl;
+        cout << "  RESERVA NO CONFIRMADA"<< endl;
         return;
     }
     cin.ignore();
-    cout << "INGRESE EL DNI DEL PASAJERO: ";
+    cout << "  INGRESE EL DNI DEL PASAJERO: ";
     cin.getline(dni,9);
     existe = existePasajero(dni);
     while(existe == false){
-        cout << "DNI INCORRECTO" << endl;
-        cout << "REINGRESE DNI: ";
+        cout << "  DNI INCORRECTO" << endl;
+        cout << "  REINGRESE DNI: ";
         cin.getline(dni,9);
         existe = existePasajero(dni);
     }
     asiento = pasajeroYaIngresado(pnr);
     if(asiento == false){
-        cout << "ESTE PASAJERO YA TIENE ASIENTO ASIGNADO" << endl;
+        cout << "  ESTE PASAJERO YA TIENE ASIENTO ASIGNADO" << endl;
         return;
     }
     anykey();
     vuelo = buscarVuelo(pnr);
     clase = buscarClase(pnr);
     if(vuelo == -1){
-        cout << "DATOS INCORRECTOS DE VUELO" << endl;
+        cout << "  DATOS INCORRECTOS DE VUELO" << endl;
         return;
     }
     if(clase == 'N'){
-        cout << "DATOS INCORRECTOS DE CLASE" << endl;
+        cout << "  DATOS INCORRECTOS DE CLASE" << endl;
         return;
     }
     int fila,columna;
     cantFilas = mapaDeAsientos(vuelo,clase);
-    cout << "INGRESAR FILA: ";
+    cout << "  INGRESAR FILA: ";
     cin >> fila;
-    cout << "INGRESAR COLUMNA: ";
+    cout << "  INGRESAR COLUMNA: ";
     cin >> columna;
     disponible = asientoDisponible(vuelo,clase,fila,columna,cantFilas);
     while(disponible == false){
-        cout << "ASIENTO YA OCUPADO O FUERA DE RANGO" << endl;
-        cout << "REINGRESAR FILA: ";
+        cout << "  ASIENTO YA OCUPADO O FUERA DE RANGO" << endl;
+        cout << "  REINGRESAR FILA: ";
         cin >> fila;
-        cout << "REINGRESAR COLUMNA: ";
+        cout << "  REINGRESAR COLUMNA: ";
         cin >> columna;
         disponible = asientoDisponible(vuelo,clase,fila,columna,cantFilas);
     }
@@ -1371,18 +1609,7 @@ bool existeCheckin(int pnr){
     }
     return false;
 }
-bool existeDniYPnr(char *dni, int pnr){
-    AuxiliarPasajero auxPax;
-    int pos=0;
-    while(auxPax.leerDeDisco(pos++)){
-        if(pnr == auxPax.getIdPnr()){
-            if(strcmp(dni, auxPax.getDni())==0){
-                return true;
-            }
-        }
-    }
-    return false;
-}
+
 void imprimirBP(){
     int pnr,opc, pos=0;
     char dni[9], nombre[50], apellido[50];
@@ -1570,10 +1797,15 @@ void listarCantPaxPorVuelo(){
 }
 void mostrarVector(float *vec,int tam){
     int x;
+    bool b=0;
     for(x=0;x<tam;x++){
         if(vec[x]>0){
             cout << "  MES " << x+1 << ": $ " << vec[x] << endl ;
+            b = 1;
         }
+    }
+    if(b==0){
+        cout << "  NO HAY REGISTROS PARA ESE AÑO. " << endl;
     }
 }
 void balanceMensual(){
@@ -1582,6 +1814,10 @@ void balanceMensual(){
     Reserva reg;
     cout << "  INGRESE EL AÑO : " ;
     cin >> anio;
+    if(anio<0){
+        cout << "  AÑO INCORRECTO." << endl;
+        return;
+    }
     while(reg.leerDeDisco(pos++)){
         if(anio==reg.getFechaCompra().getAnio()){
             vec[reg.getFechaCompra().getMes()-1]+=reg.getImporte();
@@ -1596,6 +1832,10 @@ void balanceAnual(){
     Reserva reg;
     cout << "  INGRESE EL AÑO : " ;
     cin >> anio;
+    if(anio<0){
+        cout << "  AÑO INCORRECTO." << endl;
+        return;
+    }
     while(reg.leerDeDisco(pos++)){
         if(anio==reg.getFechaCompra().getAnio()){
             acum+=reg.getImporte();
@@ -1642,7 +1882,7 @@ void destinosMenosRentables(){
     }
     cout << "  INGRESE MES: ";
     cin >> mes;
-    while(mes<1 && mes>12){
+    while(mes<1 || mes>12){
         cout << "  MES INCORRECTO. REINGRESE EL MES: ";
         cin >> mes;
     }
@@ -1715,7 +1955,7 @@ void destinoMasRentables(){
     }
     cout << "  INGRESE MES: ";
     cin >> mes;
-    while(mes<1 && mes>12){
+    while(mes<1 || mes>12){
         cout << "  MES INCORRECTO. REINGRESE EL MES: ";
         cin >> mes;
     }
@@ -1828,6 +2068,10 @@ void rankingMayorOcupa(){
     int anio,i;
     cout << "  INGRESE EL AÑO: ";
     cin >> anio;
+    if(anio<0){
+        cout << "  AÑO INCORRECTO." << endl;
+        return;
+    }
     int cantreg = cantidadDestinos();
     codigoDest = new Destino[cantreg];
     ocupa = new int[cantreg];
@@ -1877,6 +2121,10 @@ void rankingMenorOcupa(){
     int anio,i;
     cout << "  INGRESE EL AÑO: ";
     cin >> anio;
+    if(anio<0){
+        cout << "  AÑO INCORRECTO." << endl;
+        return;
+    }
     int cantreg = cantidadDestinos();
     codigoDest = new Destino[cantreg];
     ocupa = new int[cantreg];
@@ -1958,6 +2206,10 @@ void rankingMayorRecaudacion(){
     int anio,i;
     cout << "  INGRESE EL AÑO: ";
     cin >> anio;
+    if(anio<0){
+        cout << "  AÑO INCORRECTO." << endl;
+        return;
+    }
     int cantreg = cantidadDestinos();
     codigoDest = new Destino[cantreg];
     recauda = new float[cantreg];

@@ -42,6 +42,7 @@ class Vuelo{
         void setEtd(Horario);
         void setDest(Destino);
         void cargar();
+        void cargar2();
         void mostrar();
         bool grabarEnDisco(int);
         void grabarEnDisco();

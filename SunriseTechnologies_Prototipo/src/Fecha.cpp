@@ -33,7 +33,7 @@ void Fecha::setAnio(int val) {
 }
 
 void Fecha::mostrar(){
-    cout << _dia << "/" << _mes << "/" << _anio << endl;
+    cout << "  " << _dia << "/" << _mes << "/" << _anio << endl;
 }
 
 void Fecha::cargar(){

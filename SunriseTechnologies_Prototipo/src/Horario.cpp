@@ -18,7 +18,7 @@ void Horario::setMinuto(int minuto){
     _minuto = minuto;
 }
 void Horario::mostrar(){
-    cout << _hora << ":";
+    cout << "  " << _hora << ":";
     if(_minuto == 0){
         cout << "0" << _minuto << endl;
     }

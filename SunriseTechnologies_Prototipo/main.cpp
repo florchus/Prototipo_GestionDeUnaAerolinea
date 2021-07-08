@@ -20,17 +20,6 @@ using namespace rlutil;
 int main(){
     saveDefaultColor();
 	setlocale(LC_ALL, "Spanish");
-//	Vuelo reg;
-//	int pos =0;
-//	int idvuelo = 1;
-//	while(reg.leerDeDisco(pos)){
-//        if(reg.getidVuelo() == idvuelo){
-//            reg.setMatriculaAvion("LVAAA");
-//            reg.grabarEnDisco(pos);
-//        cout << "MATRICULA" << reg.getMatriculaAvion();
-//        }
-//        pos++;
-//	}
 
 //	AuxiliarAvion reg;
 //	for(int i=0; i<417; i++){

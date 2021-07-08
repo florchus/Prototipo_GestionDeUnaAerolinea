@@ -9,6 +9,8 @@ void cargarUsuarios();
 
 void leerPasw(char []);
 
+bool existeUsuario(char *);
+
 int login();
 
 void listarUsuarios(); // borrar
@@ -38,7 +40,12 @@ void crearFlota();
 
 void mostrarFlota();
 
+bool existeMatricula(char *);
+
 //MENU RESERVAS
+
+bool verificarIdVuelo(char *, int , char *);
+
 void listaCiudades();
 
 void buscarVueloBue(char *);
@@ -76,6 +83,12 @@ void mostrarPax(char*);
 void listarClientes();
 
 void modificarClientes();
+
+bool existeDest(char *);
+
+bool estadoEnUnoDestino(char *);
+
+void generarBue(int,char , float );
 
 //MENU CHECK IN
 
