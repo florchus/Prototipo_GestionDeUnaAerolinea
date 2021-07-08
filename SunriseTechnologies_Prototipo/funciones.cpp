@@ -461,6 +461,7 @@ void mostrarCapacidadAsientos(int vuelo){
 void altaVuelos(){
     cls();
     Vuelo reg;
+    AuxiliarAvion aux;
     char matriculaAvion[6];
     int idVuelo;
     cin.ignore();
@@ -482,6 +483,8 @@ void altaVuelos(){
     reg.setIdVuelo(idVuelo);
     reg.cargar2();
     reg.grabarEnDisco();
+    aux.cargar();
+    aux.grabarEnDisco();
 }
 void listaCiudades(){
     Destino reg;
